@@ -1,8 +1,12 @@
-<app-header></app-header>
+<app-header (onSelected)="navigation($event)"></app-header>
 <div class="container">
   <div class="row">
     <div class="col-md-12">
       <h2>I'm Working</h2>
+      <app-recipes *ngIf="currentPage === 'recipes'"></app-recipes>
+      <app-shopping-list
+        *ngIf="currentPage === 'shoppingList'"
+      ></app-shopping-list>
     </div>
   </div>
 </div>
