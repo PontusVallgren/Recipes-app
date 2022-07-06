@@ -9,6 +9,5 @@ export class AppComponent {
   currentPage = "recipes"
   navigation(route: string) {
     this.currentPage = route;
-    console.log(this.currentPage)
   }
 }
