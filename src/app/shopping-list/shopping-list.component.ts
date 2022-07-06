@@ -12,5 +12,7 @@ ingredients: Ingredients[] = [new Ingredients('tomat', 5), new Ingredients('Gurk
 
   ngOnInit(): void {
   }
-
+  onAddToList(ingredient: Ingredients) {
+    this.ingredients.push(ingredient)
+  }
 }
