@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthComponent } from './auth/auth.component';
 import { RecipeDefaultComponent } from './recipes/recipe-default/recipe-default.component';
 import { RecipeDetailsComponent } from './recipes/recipe-details/recipe-details.component';
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
@@ -40,6 +41,10 @@ const appRoutes: Routes = [
         resolve: [RecipeResolverService],
       },
     ],
+  },
+  {
+    path: 'auth',
+    component: AuthComponent,
   },
 ];
 
