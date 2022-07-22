@@ -17,18 +17,27 @@
     >
       <ul class="nav navbar-nav">
         <li routerLinkActive="active">
-          <a routerLink="/recipes" style="cursor: pointer">Recipes</a>
+          <a routerLink="/recipes" style="cursor: pointer" *ngIf="isLoggedIn"
+            >Recipes</a
+          >
         </li>
         <li routerLinkActive="active">
-          <a routerLink="/shopping-list">Shopping List</a>
+          <a routerLink="/shopping-list" *ngIf="isLoggedIn">Shopping List</a>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li routerLinkActive="active">
-          <a routerLink="/auth">Login</a>
+          <a routerLink="/auth" *ngIf="!isLoggedIn">Login</a>
+          <a style="cursor: pointer" (click)="onLogout()" *ngIf="isLoggedIn"
+            >Logout</a
+          >
         </li>
         <li class="dropdown" appDropdown>
-          <a style="cursor: pointer" class="dropdown-toggle" role="button"
+          <a
+            style="cursor: pointer"
+            class="dropdown-toggle"
+            role="button"
+            *ngIf="isLoggedIn"
             >Manage <span class="caret"></span
           ></a>
           <ul class="dropdown-menu">
