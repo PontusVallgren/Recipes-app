@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AuthGuard } from '../auth/auth.guard';
 import { SharedModule } from '../shared/shared.module';
@@ -12,7 +12,7 @@ import { ShoppingListComponent } from './shopping-list.component';
     FormsModule,
     RouterModule.forChild([
       {
-        path: 'shopping-list',
+        path: '',
         component: ShoppingListComponent,
         canActivate: [AuthGuard],
       },
