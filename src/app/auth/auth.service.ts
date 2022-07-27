@@ -5,6 +5,9 @@ import { BehaviorSubject, Subject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { User } from './user.model';
 import { environment } from 'src/environments/environment';
+import { Store } from '@ngrx/store';
+import * as fromApp from '../store/app.reducer';
+import * as AuthActions from './store/auth.action';
 
 export type AuthResponseData = {
   kind: string;
@@ -20,10 +23,14 @@ export type AuthResponseData = {
   providedIn: 'root',
 })
 export class AuthService {
-  user = new BehaviorSubject<User>(null);
+  // user = new BehaviorSubject<User>(null);
   tokenExperiationTimer: any;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private store: Store<fromApp.AppState>
+  ) {}
 
   register(email: string, password: string) {
     return this.http
@@ -72,7 +79,8 @@ export class AuthService {
   }
 
   logout() {
-    this.user.next(null);
+    // this.user.next(null);
+    this.store.dispatch(new AuthActions.Logout());
     this.router.navigate(['/auth']);
     localStorage.removeItem('userData');
     if (this.tokenExperiationTimer) {
@@ -89,7 +97,15 @@ export class AuthService {
   ) {
     const expierationDate = new Date(new Date().getTime() + expiresIn * 1000);
     const user = new User(email, userId, token, expierationDate);
-    this.user.next(user);
+    this.store.dispatch(
+      new AuthActions.Login({
+        email,
+        userId,
+        token,
+        expirationDate: expierationDate,
+      })
+    );
+    // this.user.next(user);
     // this.autoLogout(+expierationDate * 1000);
     localStorage.setItem('userData', JSON.stringify(user));
   }
@@ -111,7 +127,15 @@ export class AuthService {
         new Date(userData._tokenExperiationDate)
       );
       if (loadedUser.token) {
-        this.user.next(loadedUser);
+        this.store.dispatch(
+          new AuthActions.Login({
+            email: loadedUser.email,
+            userId: loadedUser.id,
+            token: loadedUser.token,
+            expirationDate: new Date(userData._tokenExperiationDate),
+          })
+        );
+        // this.user.next(loadedUser);
         // const experiationDuration =
         //   new Date(userData._tokenExperiationDate).getTime() -
         //   new Date().getTime();
